@@ -1,0 +1,643 @@
+[gd_scene load_steps=31 format=2]
+
+[ext_resource path="res://Assets/GodotPride.png" type="Texture" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://Assets/BaseAlpha.png" type="Texture" id=3]
+[ext_resource path="res://Assets/FeatureMask.png" type="Texture" id=4]
+[ext_resource path="res://LinearGradient.tres" type="Material" id=5]
+[ext_resource path="res://Assets/GodotMasks.png" type="Texture" id=6]
+
+[sub_resource type="Environment" id=24]
+background_mode = 1
+background_color = Color( 0.611765, 0.117647, 0.117647, 1 )
+
+[sub_resource type="World" id=25]
+environment = SubResource( 24 )
+
+[sub_resource type="Animation" id=13]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("TextureRect:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("TextureRect2:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 452, 0 ) ]
+}
+
+[sub_resource type="Animation" id=14]
+resource_name = "Transition"
+length = 3.36667
+loop = true
+step = 0.0333333
+tracks/0/type = "value"
+tracks/0/path = NodePath("TextureRect:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2.33333, 3.36667 ),
+"transitions": PoolRealArray( -2, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -452 ), Vector2( 0, -452 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("TextureRect2:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 2.33333, 3.36667 ),
+"transitions": PoolRealArray( -2, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 452 ), Vector2( 0, 0 ), Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="GDScript" id=16]
+script/source = "extends AnimationPlayer
+
+
+# Declare member variables here. Examples:
+# var a = 2
+# var b = \"text\"
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	play(\"Transition\")
+"
+
+[sub_resource type="StyleBoxFlat" id=1]
+draw_center = false
+border_width_bottom = 2
+
+[sub_resource type="StyleBoxFlat" id=15]
+content_margin_left = 8.0
+content_margin_top = 10.0
+bg_color = Color( 0.14902, 0.145098, 0.145098, 1 )
+
+[sub_resource type="VisualShaderNodeTexture" id=17]
+texture = ExtResource( 6 )
+
+[sub_resource type="VisualShaderNodeTexture" id=18]
+source = 2
+texture = ExtResource( 3 )
+
+[sub_resource type="VisualShaderNodeVectorDecompose" id=19]
+
+[sub_resource type="VisualShaderNodeInput" id=20]
+input_name = "uv"
+
+[sub_resource type="VisualShaderNodeVectorDecompose" id=21]
+
+[sub_resource type="VisualShaderNodeScalarOp" id=22]
+operator = 6
+
+[sub_resource type="VisualShaderNodeVectorCompose" id=23]
+
+[sub_resource type="VisualShader" id=26]
+code = "shader_type canvas_item;
+uniform sampler2D tex_frg_2;
+
+
+
+void vertex() {
+// Output:0
+
+}
+
+void fragment() {
+// Texture:3
+	vec3 n_out3p0;
+	float n_out3p1;
+	{
+		vec4 _tex_read = texture(TEXTURE , UV.xy);
+		n_out3p0 = _tex_read.rgb;
+		n_out3p1 = _tex_read.a;
+	}
+
+// Texture:2
+	vec4 tex_frg_2_read = texture(tex_frg_2, UV.xy);
+	vec3 n_out2p0 = tex_frg_2_read.rgb;
+	float n_out2p1 = tex_frg_2_read.a;
+
+// Output:0
+	COLOR.rgb = n_out3p0;
+	COLOR.a = n_out2p1;
+
+}
+
+void light() {
+// Output:0
+
+}
+"
+graph_offset = Vector2( -863, -339 )
+mode = 1
+flags/light_only = false
+nodes/fragment/2/node = SubResource( 17 )
+nodes/fragment/2/position = Vector2( -1140, -120 )
+nodes/fragment/3/node = SubResource( 18 )
+nodes/fragment/3/position = Vector2( -240, -240 )
+nodes/fragment/4/node = SubResource( 19 )
+nodes/fragment/4/position = Vector2( -860, -140 )
+nodes/fragment/5/node = SubResource( 20 )
+nodes/fragment/5/position = Vector2( -1060, -260 )
+nodes/fragment/6/node = SubResource( 21 )
+nodes/fragment/6/position = Vector2( -880, -240 )
+nodes/fragment/7/node = SubResource( 22 )
+nodes/fragment/7/position = Vector2( -640, -240 )
+nodes/fragment/8/node = SubResource( 23 )
+nodes/fragment/8/position = Vector2( -460, -260 )
+nodes/fragment/connections = PoolIntArray( 3, 0, 0, 0, 2, 1, 0, 1, 2, 0, 4, 0, 5, 0, 6, 0, 4, 1, 7, 1, 6, 1, 7, 0, 7, 0, 8, 1 )
+
+[sub_resource type="ShaderMaterial" id=27]
+shader = SubResource( 26 )
+
+[sub_resource type="ViewportTexture" id=12]
+viewport_path = NodePath("FlagEditor")
+
+[sub_resource type="ViewportTexture" id=28]
+viewport_path = NodePath("FlagEditor/Viewport")
+
+[sub_resource type="VisualShaderNodeTexture" id=6]
+texture = ExtResource( 6 )
+
+[sub_resource type="VisualShaderNodeTexture" id=7]
+source = 2
+
+[sub_resource type="VisualShader" id=9]
+code = "shader_type canvas_item;
+uniform sampler2D tex_frg_14;
+
+
+
+void vertex() {
+// Output:0
+
+}
+
+void fragment() {
+// Texture:3
+	vec3 n_out3p0;
+	float n_out3p1;
+	{
+		vec4 _tex_read = texture(TEXTURE , UV.xy);
+		n_out3p0 = _tex_read.rgb;
+		n_out3p1 = _tex_read.a;
+	}
+
+// Texture:14
+	vec4 tex_frg_14_read = texture(tex_frg_14, UV.xy);
+	vec3 n_out14p0 = tex_frg_14_read.rgb;
+	float n_out14p1 = tex_frg_14_read.a;
+
+// Output:0
+	COLOR.rgb = n_out3p0;
+	COLOR.a = n_out14p1;
+
+}
+
+void light() {
+// Output:0
+
+}
+"
+graph_offset = Vector2( -601, -132 )
+mode = 1
+flags/light_only = false
+nodes/fragment/3/node = SubResource( 7 )
+nodes/fragment/3/position = Vector2( 60, 0 )
+nodes/fragment/14/node = SubResource( 6 )
+nodes/fragment/14/position = Vector2( 60, 140 )
+nodes/fragment/connections = PoolIntArray( 3, 0, 0, 0, 14, 1, 0, 1 )
+
+[sub_resource type="ShaderMaterial" id=10]
+shader = SubResource( 9 )
+
+[sub_resource type="StyleBoxFlat" id=11]
+content_margin_top = 5.0
+draw_center = false
+border_width_top = 2
+
+[sub_resource type="ViewportTexture" id=29]
+viewport_path = NodePath("FlagEditor/Viewport")
+
+[node name="Control" type="PanelContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="FlagEditor" type="Viewport" parent="."]
+size = Vector2( 480, 452 )
+render_target_v_flip = true
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="FlagEditor"]
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_pivot_offset = Vector2( 0, 226 )
+ratio = 1.062
+stretch_mode = 3
+
+[node name="TextureRect" type="TextureRect" parent="FlagEditor/AspectRatioContainer"]
+margin_left = -240.012
+margin_right = 240.012
+margin_bottom = 452.0
+texture = ExtResource( 2 )
+expand = true
+
+[node name="Viewport" type="Viewport" parent="FlagEditor"]
+size = Vector2( 2, 512 )
+own_world = true
+world = SubResource( 25 )
+disable_3d = true
+usage = 0
+render_target_v_flip = true
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="FlagEditor/Viewport"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 2, 512 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_constants/separation = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="FlagEditor/Viewport/VBoxContainer2"]
+margin_right = 2.0
+margin_bottom = 1.0
+rect_min_size = Vector2( 1, 1 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.57
+custom_constants/separation = 0
+
+[node name="Normal" type="ColorRect" parent="FlagEditor/Viewport/VBoxContainer2/HBoxContainer"]
+margin_right = 1.0
+margin_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0.282353, 0.105882, 0.105882, 1 )
+
+[node name="Stroke" type="ColorRect" parent="FlagEditor/Viewport/VBoxContainer2/HBoxContainer"]
+margin_left = 1.0
+margin_right = 2.0
+margin_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0.258824, 0.0823529, 0.0823529, 1 )
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="FlagEditor/Viewport/VBoxContainer2"]
+margin_top = 1.0
+margin_right = 2.0
+margin_bottom = 510.0
+rect_min_size = Vector2( 1, 1 )
+size_flags_vertical = 11
+size_flags_stretch_ratio = 2.0
+custom_constants/separation = 0
+
+[node name="Normal" type="ColorRect" parent="FlagEditor/Viewport/VBoxContainer2/HBoxContainer2"]
+margin_right = 1.0
+margin_bottom = 509.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0.521569, 0.2, 0.2, 1 )
+
+[node name="Stroke" type="ColorRect" parent="FlagEditor/Viewport/VBoxContainer2/HBoxContainer2"]
+margin_left = 1.0
+margin_right = 2.0
+margin_bottom = 509.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0.435294, 0.152941, 0.152941, 1 )
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="FlagEditor/Viewport/VBoxContainer2"]
+margin_top = 510.0
+margin_right = 2.0
+margin_bottom = 512.0
+rect_min_size = Vector2( 1, 2 )
+size_flags_horizontal = 3
+size_flags_vertical = 9
+custom_constants/separation = 0
+
+[node name="Normal" type="ColorRect" parent="FlagEditor/Viewport/VBoxContainer2/HBoxContainer3"]
+margin_right = 1.0
+margin_bottom = 2.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0.215686, 0.054902, 0.054902, 1 )
+
+[node name="Stroke" type="ColorRect" parent="FlagEditor/Viewport/VBoxContainer2/HBoxContainer3"]
+margin_left = 1.0
+margin_right = 2.0
+margin_bottom = 2.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0.235294, 0.0431373, 0.0431373, 1 )
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="FlagEditor/Viewport"]
+anchor_top = 0.99
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 2, 2 )
+custom_constants/separation = 0
+
+[node name="ColorRect" type="ColorRect" parent="FlagEditor/Viewport/HBoxContainer2"]
+margin_right = 1.0
+margin_bottom = 5.0
+rect_min_size = Vector2( 1, 2 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0.258824, 0.0470588, 0.0470588, 1 )
+
+[node name="ColorRect2" type="ColorRect" parent="FlagEditor/Viewport/HBoxContainer2"]
+margin_left = 1.0
+margin_right = 2.0
+margin_bottom = 5.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="RenderAnimation" type="Viewport" parent="."]
+size = Vector2( 480, 452 )
+render_target_v_flip = true
+
+[node name="TextureRect" type="TextureRect" parent="RenderAnimation"]
+margin_right = 480.0
+margin_bottom = 452.0
+rect_min_size = Vector2( 480, 452 )
+texture = ExtResource( 2 )
+expand = true
+
+[node name="TextureRect2" type="TextureRect" parent="RenderAnimation"]
+margin_left = 452.0
+margin_right = 932.0
+margin_bottom = 452.006
+rect_min_size = Vector2( 480, 452 )
+texture = ExtResource( 2 )
+expand = true
+
+[node name="TextureRect3" type="TextureRect" parent="RenderAnimation"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 4 )
+expand = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="RenderAnimation"]
+anims/RESET = SubResource( 13 )
+anims/Transition = SubResource( 14 )
+script = SubResource( 16 )
+
+[node name="Control" type="Control" parent="."]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 793.0
+margin_bottom = 593.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 793.0
+margin_bottom = 593.0
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+margin_right = 786.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 0, 20 )
+custom_styles/panel = SubResource( 1 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer"]
+margin_right = 786.0
+margin_bottom = 20.0
+
+[node name="MenuButton" type="MenuButton" parent="VBoxContainer/PanelContainer/HBoxContainer"]
+margin_right = 35.0
+margin_bottom = 20.0
+text = "File"
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+margin_top = 26.0
+margin_right = 786.0
+margin_bottom = 563.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
+margin_right = 786.0
+margin_bottom = 537.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+visible = false
+margin_right = 155.0
+margin_bottom = 537.0
+size_flags_horizontal = 3
+
+[node name="ItemList" type="ItemList" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+margin_right = 195.0
+margin_bottom = 537.0
+rect_min_size = Vector2( 100, 0 )
+size_flags_horizontal = 3
+custom_styles/bg = SubResource( 15 )
+items = [ "Pride Flag 1", ExtResource( 1 ), false, "Item 1", ExtResource( 1 ), false, "Item 2", ExtResource( 1 ), false, "Item 3", ExtResource( 1 ), false, "Item 4", ExtResource( 1 ), false, "Item 5", ExtResource( 1 ), false, "Item 6", ExtResource( 1 ), false, "Item 7", ExtResource( 1 ), false, "Item 8", ExtResource( 1 ), false, "Item 9", ExtResource( 1 ), false, "Item 10", ExtResource( 1 ), false, "Item 11", ExtResource( 1 ), false, "Item 12", ExtResource( 1 ), false ]
+fixed_icon_size = Vector2( 40, 40 )
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+margin_left = 199.0
+margin_right = 786.0
+margin_bottom = 537.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 3.0
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
+margin_right = 587.0
+margin_bottom = 513.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.0
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/AspectRatioContainer"]
+self_modulate = Color( 1, 1, 1, 0 )
+margin_left = 37.0
+margin_right = 550.0
+margin_bottom = 513.0
+texture = ExtResource( 1 )
+expand = true
+
+[node name="TextureRect2" type="TextureRect" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/AspectRatioContainer/TextureRect"]
+visible = false
+material = SubResource( 27 )
+anchor_left = 0.031
+anchor_top = 0.058
+anchor_right = 0.969
+anchor_bottom = 0.942
+texture = SubResource( 12 )
+expand = true
+
+[node name="TextureRect4" type="TextureRect" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/AspectRatioContainer/TextureRect"]
+visible = false
+material = ExtResource( 5 )
+anchor_left = 0.031
+anchor_top = 0.058
+anchor_right = 0.969
+anchor_bottom = 0.942
+texture = SubResource( 28 )
+expand = true
+
+[node name="TextureRect3" type="TextureRect" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/AspectRatioContainer/TextureRect"]
+visible = false
+material = SubResource( 10 )
+anchor_left = 0.031
+anchor_top = 0.058
+anchor_right = 0.969
+anchor_bottom = 0.942
+texture = SubResource( 12 )
+expand = true
+
+[node name="PanelContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
+margin_top = 517.0
+margin_right = 587.0
+margin_bottom = 537.0
+alignment = 1
+
+[node name="Button" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer"]
+margin_left = 227.0
+margin_right = 255.0
+margin_bottom = 20.0
+text = "<<"
+
+[node name="Button3" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer"]
+margin_left = 259.0
+margin_right = 279.0
+margin_bottom = 20.0
+text = "<"
+
+[node name="Button5" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer"]
+margin_left = 283.0
+margin_right = 303.0
+margin_bottom = 20.0
+text = "o"
+
+[node name="Button4" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer"]
+margin_left = 307.0
+margin_right = 327.0
+margin_bottom = 20.0
+text = ">"
+
+[node name="Button2" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer"]
+margin_left = 331.0
+margin_right = 359.0
+margin_bottom = 20.0
+text = ">>"
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+margin_top = 567.0
+margin_right = 786.0
+margin_bottom = 586.0
+custom_styles/normal = SubResource( 11 )
+text = "Gif creation requires ffmpeg - to include gif generation, set ffmpeg path."
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="VBoxContainer/Label"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -1407.0
+margin_top = -574.0
+margin_right = -2143.0
+margin_bottom = -81.0
+custom_constants/separation = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Label/VBoxContainer3"]
+margin_right = 50.0
+margin_bottom = 137.0
+rect_min_size = Vector2( 1, 1 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 0
+
+[node name="Normal" type="ColorRect" parent="VBoxContainer/Label/VBoxContainer3/HBoxContainer"]
+margin_right = 25.0
+margin_bottom = 137.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0.282353, 0.105882, 0.105882, 1 )
+
+[node name="Stroke" type="ColorRect" parent="VBoxContainer/Label/VBoxContainer3/HBoxContainer"]
+margin_left = 25.0
+margin_right = 50.0
+margin_bottom = 137.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0.258824, 0.0823529, 0.0823529, 1 )
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/Label/VBoxContainer3"]
+margin_top = 137.0
+margin_right = 50.0
+margin_bottom = 411.0
+rect_min_size = Vector2( 1, 1 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+custom_constants/separation = 0
+
+[node name="Normal" type="ColorRect" parent="VBoxContainer/Label/VBoxContainer3/HBoxContainer2"]
+margin_right = 25.0
+margin_bottom = 274.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0.521569, 0.2, 0.2, 1 )
+
+[node name="Stroke" type="ColorRect" parent="VBoxContainer/Label/VBoxContainer3/HBoxContainer2"]
+margin_left = 25.0
+margin_right = 50.0
+margin_bottom = 274.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0.435294, 0.152941, 0.152941, 1 )
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/Label/VBoxContainer3"]
+margin_top = 411.0
+margin_right = 50.0
+margin_bottom = 511.0
+rect_min_size = Vector2( 1, 100 )
+size_flags_horizontal = 3
+custom_constants/separation = 0
+
+[node name="Normal" type="ColorRect" parent="VBoxContainer/Label/VBoxContainer3/HBoxContainer3"]
+margin_right = 25.0
+margin_bottom = 100.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0.215686, 0.054902, 0.054902, 1 )
+
+[node name="Stroke" type="ColorRect" parent="VBoxContainer/Label/VBoxContainer3/HBoxContainer3"]
+margin_left = 25.0
+margin_right = 50.0
+margin_bottom = 100.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0.235294, 0.0431373, 0.0431373, 1 )
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/Label"]
+margin_left = -608.0
+margin_top = -601.0
+margin_right = -158.0
+margin_bottom = 92.0
+texture = SubResource( 29 )
+expand = true

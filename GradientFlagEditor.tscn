@@ -1,0 +1,291 @@
+[gd_scene load_steps=22 format=2]
+
+[ext_resource path="res://LinearGradient.tres" type="Material" id=1]
+[ext_resource path="res://ColorPrefab.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Assets/GodotMasks.png" type="Texture" id=3]
+
+[sub_resource type="VisualShaderNodeVectorDecompose" id=1]
+
+[sub_resource type="VisualShaderNodeInput" id=2]
+input_name = "uv"
+
+[sub_resource type="VisualShaderNodeTexture" id=3]
+source = 2
+
+[sub_resource type="VisualShaderNodeVectorCompose" id=4]
+default_input_values = [ 0, 1.0, 1, 0.0, 2, 0.0 ]
+
+[sub_resource type="VisualShader" id=5]
+code = "shader_type canvas_item;
+
+
+
+void vertex() {
+// Output:0
+
+}
+
+void fragment() {
+// Input:3
+	vec3 n_out3p0 = vec3(UV, 0.0);
+
+// VectorDecompose:2
+	float n_out2p0 = n_out3p0.x;
+	float n_out2p1 = n_out3p0.y;
+	float n_out2p2 = n_out3p0.z;
+
+// VectorCompose:5
+	float n_in5p0 = 1.00000;
+	float n_in5p2 = 0.00000;
+	vec3 n_out5p0 = vec3(n_in5p0, n_out2p1, n_in5p2);
+
+// Texture:4
+	vec3 n_out4p0;
+	float n_out4p1;
+	{
+		vec4 _tex_read = texture(TEXTURE, n_out5p0.xy);
+		n_out4p0 = _tex_read.rgb;
+		n_out4p1 = _tex_read.a;
+	}
+
+// Output:0
+	COLOR.rgb = n_out4p0;
+
+}
+
+void light() {
+// Output:0
+
+}
+"
+graph_offset = Vector2( -1646.62, -404.374 )
+mode = 1
+flags/light_only = false
+nodes/fragment/0/position = Vector2( -700, -300 )
+nodes/fragment/2/node = SubResource( 1 )
+nodes/fragment/2/position = Vector2( -1380, -280 )
+nodes/fragment/3/node = SubResource( 2 )
+nodes/fragment/3/position = Vector2( -1580, -280 )
+nodes/fragment/4/node = SubResource( 3 )
+nodes/fragment/4/position = Vector2( -940, -280 )
+nodes/fragment/5/node = SubResource( 4 )
+nodes/fragment/5/position = Vector2( -1160, -280 )
+nodes/fragment/connections = PoolIntArray( 4, 0, 0, 0, 3, 0, 2, 0, 2, 1, 5, 1, 5, 0, 4, 0 )
+
+[sub_resource type="ShaderMaterial" id=6]
+shader = SubResource( 5 )
+
+[sub_resource type="ViewportTexture" id=7]
+viewport_path = NodePath("ColorPalette")
+
+[sub_resource type="VisualShaderNodeTexture" id=12]
+source = 2
+
+[sub_resource type="VisualShaderNodeVectorCompose" id=13]
+
+[sub_resource type="VisualShaderNodeInput" id=17]
+input_name = "uv"
+
+[sub_resource type="VisualShaderNodeVectorDistance" id=18]
+
+[sub_resource type="VisualShaderNodeVec3Uniform" id=19]
+uniform_name = "center"
+
+[sub_resource type="VisualShader" id=15]
+code = "shader_type canvas_item;
+uniform vec3 center;
+
+
+
+void vertex() {
+// Output:0
+
+}
+
+void fragment() {
+// Input:5
+	vec3 n_out5p0 = vec3(UV, 0.0);
+
+// VectorUniform:7
+	vec3 n_out7p0 = center;
+
+// Distance:6
+	float n_out6p0 = distance(n_out5p0, n_out7p0);
+
+// VectorCompose:3
+	float n_in3p0 = 0.00000;
+	float n_in3p2 = 0.00000;
+	vec3 n_out3p0 = vec3(n_in3p0, n_out6p0, n_in3p2);
+
+// Texture:2
+	vec3 n_out2p0;
+	float n_out2p1;
+	{
+		vec4 _tex_read = texture(TEXTURE, n_out3p0.xy);
+		n_out2p0 = _tex_read.rgb;
+		n_out2p1 = _tex_read.a;
+	}
+
+// Output:0
+	COLOR.rgb = n_out2p0;
+
+}
+
+void light() {
+// Output:0
+
+}
+"
+graph_offset = Vector2( -448.617, -84.5 )
+mode = 1
+flags/light_only = false
+nodes/fragment/2/node = SubResource( 12 )
+nodes/fragment/2/position = Vector2( 40, 120 )
+nodes/fragment/3/node = SubResource( 13 )
+nodes/fragment/3/position = Vector2( -240, 160 )
+nodes/fragment/5/node = SubResource( 17 )
+nodes/fragment/5/position = Vector2( -740, 120 )
+nodes/fragment/6/node = SubResource( 18 )
+nodes/fragment/6/position = Vector2( -480, 180 )
+nodes/fragment/7/node = SubResource( 19 )
+nodes/fragment/7/position = Vector2( -760, 320 )
+nodes/fragment/connections = PoolIntArray( 2, 0, 0, 0, 7, 0, 6, 1, 5, 0, 6, 0, 3, 0, 2, 0, 6, 0, 3, 1 )
+
+[sub_resource type="ShaderMaterial" id=16]
+shader = SubResource( 15 )
+shader_param/center = Vector3( 0.5, 0.5, 0 )
+
+[sub_resource type="VisualShaderNodeVectorDecompose" id=8]
+
+[sub_resource type="VisualShaderNodeTexture" id=9]
+texture = ExtResource( 3 )
+
+[sub_resource type="VisualShader" id=10]
+code = "shader_type canvas_item;
+uniform sampler2D tex_frg_4;
+
+
+
+void vertex() {
+// Output:0
+
+}
+
+void fragment() {
+// Texture:4
+	vec4 tex_frg_4_read = texture(tex_frg_4, UV.xy);
+	vec3 n_out4p0 = tex_frg_4_read.rgb;
+	float n_out4p1 = tex_frg_4_read.a;
+
+// VectorDecompose:3
+	float n_out3p0 = n_out4p0.x;
+	float n_out3p1 = n_out4p0.y;
+	float n_out3p2 = n_out4p0.z;
+
+// Output:0
+	COLOR.a = n_out3p1;
+
+}
+
+void light() {
+// Output:0
+
+}
+"
+graph_offset = Vector2( -406.315, 74 )
+mode = 1
+flags/light_only = false
+nodes/fragment/3/node = SubResource( 8 )
+nodes/fragment/3/position = Vector2( 60, 160 )
+nodes/fragment/4/node = SubResource( 9 )
+nodes/fragment/4/position = Vector2( -280, 140 )
+nodes/fragment/connections = PoolIntArray( 3, 1, 0, 1, 4, 0, 3, 0 )
+
+[sub_resource type="ShaderMaterial" id=11]
+shader = SubResource( 10 )
+
+[node name="Control" type="AspectRatioContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+ratio = 1.062
+
+[node name="ColorPalette" type="Viewport" parent="."]
+size = Vector2( 2, 480 )
+render_target_v_flip = true
+
+[node name="ColorContainer" type="VBoxContainer" parent="ColorPalette"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 2, 512 )
+custom_constants/separation = 0
+
+[node name="Color1" parent="ColorPalette/ColorContainer" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 2.0
+margin_bottom = 92.0
+size_flags_stretch_ratio = 0.28
+fill = Color( 0.596078, 0.576471, 0.576471, 1 )
+stroke = Color( 0.329412, 0.152941, 0.152941, 1 )
+
+[node name="Color2" parent="ColorPalette/ColorContainer" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 92.0
+margin_right = 2.0
+margin_bottom = 181.0
+size_flags_stretch_ratio = 0.27
+fill = Color( 0.533333, 0.239216, 0.239216, 1 )
+stroke = Color( 0.533333, 0.239216, 0.239216, 1 )
+
+[node name="Color3" parent="ColorPalette/ColorContainer" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 181.0
+margin_right = 2.0
+margin_bottom = 512.0
+fill = Color( 0.0470588, 0.270588, 0.121569, 1 )
+stroke = Color( 0.0470588, 0.270588, 0.121569, 1 )
+
+[node name="ResultSaver" type="Viewport" parent="."]
+size = Vector2( 960, 452 )
+render_target_v_flip = true
+
+[node name="StrokeSaver" type="TextureRect" parent="ResultSaver"]
+material = SubResource( 6 )
+margin_right = 480.0
+margin_bottom = 452.0
+texture = SubResource( 7 )
+expand = true
+
+[node name="FillSaver" type="TextureRect" parent="ResultSaver"]
+material = ExtResource( 1 )
+margin_left = 480.0
+margin_right = 960.0
+margin_bottom = 452.0
+texture = SubResource( 7 )
+expand = true
+
+[node name="Stroke" type="TextureRect" parent="."]
+material = SubResource( 16 )
+margin_left = 81.4
+margin_right = 718.6
+margin_bottom = 600.0
+texture = SubResource( 7 )
+expand = true
+
+[node name="Fill" type="TextureRect" parent="."]
+material = ExtResource( 1 )
+margin_left = 81.4
+margin_right = 718.6
+margin_bottom = 600.0
+texture = SubResource( 7 )
+expand = true
+
+[node name="Jaw" type="ColorRect" parent="."]
+visible = false
+material = SubResource( 11 )
+margin_left = 81.4
+margin_right = 718.6
+margin_bottom = 600.0
+color = Color( 0, 0, 0, 1 )
